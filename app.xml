@@ -1,0 +1,33 @@
+<icegrid>
+	<application name="PrinterApplication">
+
+
+		<server-template id="InServiceTemplate">
+			<parameter name="index" />
+			<server id="InServer${index}" exe="C:\Users\liaoqing\iceDemo\inService.bat" activation="always">
+				<adapter name="InServerAdapter" replica-group="InAdapters" endpoints="default -h localhost" />
+				<property name="identity" value="inService" />
+				<property name="Ice.Trace.ThreadPool" value="1" />
+				<property name="Ice.ThreadPool.Server.Size" value="2" />
+				<property name="Ice.ThreadPool.Server.SizeMax" value="10" />
+				<property name="Ice.ThreadPool.Server.SizeWarn" value="7" />
+				<property name="Ice.ThreadPool.Server.ThreadIdleTime" value="60" />
+				<property name="Ice.ThreadPool.Client.Size" value="1" />
+				<property name="Ice.ThreadPool.Client.SizeMax" value="10" />
+				<property name="Ice.ThreadPool.Client.SizeWarn" value="7" />
+				<property name="Ice.ThreadPool.Client.ThreadIdleTime" value="60" />
+			</server>
+		</server-template>
+
+		<replica-group id="InAdapters">
+			<load-balancing type="round-robin" />
+			<object identity="inService" />
+		</replica-group>
+
+		<node name="Node1">
+			
+			<server-instance template="InServiceTemplate" index="1" />
+		</node>
+	</application>
+</icegrid>
+
